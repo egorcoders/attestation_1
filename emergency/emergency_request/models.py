@@ -26,7 +26,7 @@ class EmergencyService(models.Model):
 
 
 class Applicant(models.Model):
-    """Заявитель."""
+    """Заявитель. """
     MALE = 'Male'
     FEMALE = 'Female'
     GENDER_CHOICES = (
@@ -99,7 +99,7 @@ class Request(models.Model):
         verbose_name='Номер карточки',
     )
     request_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата обращения')
-    injured = models.IntegerField(verbose_name='Количество пострадавших')      # ?
+    injured = models.IntegerField(verbose_name='Количество пострадавших')  # ?
     do_not_call = models.CharField(max_length=255, verbose_name='Не звонить')  # ?
     # Импортируем модели явно, не используя *. from emergency_request import models; m = models.Model.objects.all()
     status = models.CharField(
