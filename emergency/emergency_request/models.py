@@ -26,7 +26,7 @@ class EmergencyService(models.Model):
 
 
 class Applicant(models.Model):
-    """Заявитель."""
+    """Заявитель. """
     MALE = 'Male'
     FEMALE = 'Female'
     GENDER_CHOICES = (
