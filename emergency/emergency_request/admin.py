@@ -1,5 +1,5 @@
 from django.contrib import admin
-from emergency_request.models import EmergencyService, Applicant, Request
+from .models import EmergencyService, Applicant, Request
 
 
 class EmergencyServiceAdmin(admin.ModelAdmin):
@@ -17,14 +17,17 @@ class ApplicantAdmin(admin.ModelAdmin):
         'birthdate', 'health_status', 'phone_number', 'gender',
         'image', 'request',
     )
-    list_editable = ('phone_number',)
+    list_editable = ('phone_number', 'request', 'gender')
 
 
 class RequestAdmin(admin.ModelAdmin):
     list_display = (
         'pk', 'request_number', 'request_date', 'injured',
-        'do_not_call', 'status', 'emergency_service',
+        'do_not_call', 'status', 'get_service'
     )
+
+    def get_service(self, obj):
+        return "\n".join([s.service_name for s in obj.emergency_service.all()])
 
 
 admin.site.register(EmergencyService, EmergencyServiceAdmin)

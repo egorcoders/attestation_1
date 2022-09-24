@@ -73,6 +73,8 @@ class Applicant(models.Model):
         'Request',
         related_name='applicants',
         on_delete=models.CASCADE,
+        blank=True,
+        null=True,
         verbose_name='Обращение',
     )
 
@@ -96,22 +98,22 @@ class Request(models.Model):
     request_number = models.UUIDField(
         default=uuid.uuid4,
         editable=False,
+        unique=True,
+        db_index=True,
         verbose_name='Номер карточки',
     )
     request_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата обращения')
     injured = models.IntegerField(verbose_name='Количество пострадавших')  # ?
     do_not_call = models.CharField(max_length=255, verbose_name='Не звонить')  # ?
-    # Импортируем модели явно, не используя *. from emergency_request import models; m = models.Model.objects.all()
     status = models.CharField(
         max_length=255,
         choices=STATUS_CHOICES,
         default=STATUS_CHOICES[0][0],
         verbose_name='Статус',
     )
-    emergency_service = models.ForeignKey(
+    emergency_service = models.ManyToManyField(
         'EmergencyService',
         related_name='requests',
-        on_delete=models.CASCADE,
         verbose_name='Экстренная служба',
     )
 
