@@ -1,87 +1,54 @@
 from django.db import models
 import uuid
+from . import consts
 
 
 class EmergencyService(models.Model):
-    """Экстренная служба."""
-    service_name = models.CharField(
-        max_length=255,
-        verbose_name='Имя экстренной службы',
-    )
-    service_code = models.IntegerField(
-        verbose_name='Код экстренной службы',
-    )
-    phone_number = models.CharField(
-        max_length=255,
-        verbose_name='Телефон экстренной службы',
-    )
+    """Экстренные службы."""
+    service_name = models.CharField('Имя экстренной службы', max_length=255)
+    service_code = models.CharField('Код экстренной службы', max_length=255)
+    phone_number = models.CharField('Телефон экстренной службы', max_length=255)
 
     class Meta:
         verbose_name = 'Экстренная служба'
         verbose_name_plural = 'Экстренные службы'
-        ordering = ('-service_code',)
+        ordering = ('service_code',)
 
     def __str__(self):
-        return self.service_name[:10]
+        return self.service_name
 
 
 class Applicant(models.Model):
-    """Заявитель. """
-    MALE = 'Male'
-    FEMALE = 'Female'
-    GENDER_CHOICES = (
-        (MALE, "Мужчина"),
-        (FEMALE, "Женщина"),
-    )
-    first_name = models.CharField(
-        max_length=255,
-        verbose_name='Имя заявителя',
-    )
-    last_name = models.CharField(
-        max_length=255,
-        verbose_name='Фамилия заявителя',
-    )
-    middle_name = models.CharField(
-        max_length=255,
-        verbose_name='Отчество заявителя',
-    )
-    birthdate = models.DateField(verbose_name='Дата рождения заявителя')
+    """Заявитель."""
+    first_name = models.CharField('Имя заявителя', max_length=255)
+    last_name = models.CharField('Фамилия заявителя', max_length=255)
+    patronymic = models.CharField('Отчество заявителя', max_length=255)
+    birthdate = models.DateField('Дата рождения заявителя')
     health_status = models.TextField(
+        'Состояние здоровья',
         max_length=255,
-        verbose_name='Состояние здоровья',
         default='Практически здоров',
-        help_text='аллергоанамез, хроническе, заболевания и т.п.',
+        help_text='Аллергоанамез, хроническе, заболевания и т.п.',
         blank=True,
     )
-    phone_number = models.CharField(
-        max_length=255,
-        verbose_name='Телефон заявителя',
-        blank=True,
-    )
+    phone_number = models.CharField('Телефон заявителя', max_length=255, blank=True)
     gender = models.CharField(
+        'Пол',
         max_length=255,
-        choices=GENDER_CHOICES,
-        verbose_name='Пол',
+        choices=consts.GENDER_CHOICES,
+        default=consts.MALE,
     )
     image = models.ImageField(
-        verbose_name='Изображение заявителя',
+        'Изображение заявителя',
         help_text='Добавьте изображения заявителя',
         upload_to='photos/applicants/%Y/%m/%d',
         blank=True,
-    )
-    request = models.ForeignKey(
-        'Request',
-        related_name='applicants',
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
-        verbose_name='Обращение',
     )
 
     class Meta:
         verbose_name = 'Заявитель'
         verbose_name_plural = 'Заявители'
-        ordering = ('-first_name',)
+        ordering = ('first_name', 'last_name', 'patronymic')
 
     def __str__(self):
         return self.first_name
@@ -89,38 +56,46 @@ class Applicant(models.Model):
 
 class Request(models.Model):
     """Обращение."""
-    IN_WORK = 'Male'
-    COMPLETED = 'Female'
-    STATUS_CHOICES = (
-        (IN_WORK, "В работе"),
-        (COMPLETED, "Завершено"),
+    text = models.TextField(
+        'Описание',
+        help_text='Текст описания вашего обращения',
+        blank=True
     )
-    request_number = models.UUIDField(
+    number = models.UUIDField(
+        'Номер карточки',
         default=uuid.uuid4,
         editable=False,
         unique=True,
         db_index=True,
-        verbose_name='Номер карточки',
     )
-    request_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата обращения')
-    injured = models.IntegerField(verbose_name='Количество пострадавших')  # ?
-    do_not_call = models.CharField(max_length=255, verbose_name='Не звонить')  # ?
+    dc = models.DateTimeField('Дата создания', auto_now_add=True)
+    injured = models.PositiveIntegerField(
+        'Количество пострадавших',
+        editable=False
+    )
+    do_not_call = models.BooleanField('Не звонить', default=False)
     status = models.CharField(
+        'Статус',
         max_length=255,
-        choices=STATUS_CHOICES,
-        default=STATUS_CHOICES[0][0],
-        verbose_name='Статус',
+        choices=consts.STATUS_CHOICES,
+        default=consts.IN_WORK,
     )
     emergency_service = models.ManyToManyField(
         'EmergencyService',
         related_name='requests',
         verbose_name='Экстренная служба',
     )
+    applicant = models.ForeignKey(
+        'Applicant',
+        related_name='requests',
+        on_delete=models.CASCADE,
+        verbose_name='Заявитель',
+    )
 
     class Meta:
         verbose_name = 'Обращение'
         verbose_name_plural = 'Обращения'
-        ordering = ('-request_number', '-request_date',)
+        ordering = ('dc',)
 
     def __str__(self):
-        return str(self.request_number)
+        return f'{self.pk} {self.applicant}'
