@@ -31,7 +31,7 @@ class Applicant(models.Model):
     FEMALE = 'Female'
     GENDER_CHOICES = (
         (MALE, "Мужчина"),
-        (FEMALE, "Женщина"),
+        (FEMALE, "Женщина")
     )
     first_name = models.CharField(
         max_length=255,
