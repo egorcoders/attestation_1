@@ -2,7 +2,6 @@
 
 ## Определение моделей
 
-
 ## Установка
 
 1. Клонировать репозиторий:
@@ -353,11 +352,16 @@
    ```
 3. Добавьте "Обращению" несколько "экстренных служб" двумя способами (add, set)
    ```python
+   #1
    s1 = models.EmergencyService.objects.get(pk=1)
    s3 = models.EmergencyService.objects.get(pk=2)
    r = models.Request.objects.get(pk=1)
    r.emergency_service.add(s1, s2)
-
+   
+   #2
+   s1 = models.EmergencyService.objects.get(pk=1)
+   r = models.Request.objects.get(pk=1)
+   r.emergency_service.set([s1,])
    ```
 
 ### Запрос в БД
@@ -405,7 +409,25 @@
    models.Request.objects.all()[::2]
    ```
 
-7. Если дважды проитерироваться по полученному ОuеrуSеt, то сколько будет сделано обращений в БД? С помощью конструкции len(connection.) можно проверить количество запросов в БД. Для сброса следует использовать reset_queries() из django.db.
+7. Если дважды проитерироваться по полученному ОuеrуSеt, то сколько будет сделано обращений в БД?
+С помощью конструкции len(connection.queries) можно проверить количество запросов в БД. Для сброса следует использовать reset_queries() из django.db.
+   ```python
+   from django.db import connection, reset_queries
+   reset_queries()
+   # Возвращает 0
+   len(connection.queries)
+   r = models.Request.objects.all()
+   # После первого обращения к БД, результат преобразуется в модели Django, которые заносятся в переменную _result_cache
+   for i in r:
+      print(i.request_number)
+   # При повторном обращении, данные берутся из кэша
+   for i in r:
+      print(i.request_date)
+   len(connection.queries)
+
+   # Возвращает 1
+   len(connection.queries)   
+   ```
 
 8. Вывести общее число обращений
    ```python
@@ -432,35 +454,97 @@
    models.Applicant.objects.order_by('pk')
    ```
 4. Получить всех несовершеннолетних заявителей
+   ```python
+   models.Applicant.objects.filter(birthdate__year__lt=(today.year - 18))
+   ```
 5. Получить всех совершеннолетних заявителей
+   ```python
+   models.Applicant.objects.filter(birthdate__year__gte=(today.year - 18))
+   ```
 6. Узнать есть ли вообще какие-нибудь заявители
    ```python
    models.Applicant.objects.exists()
    ```
 7. Узнать, есть ли какие-нибудь заявители с похожими именами (пример: Алексей, Александра)
+   ```python
+   models.Applicant.objects.filter(first_name__contains='Алекс')
+   ```
 8. Получить все обращения, кроме тех, у которых не назначены службы
    ```python
    models.Applicant.objects.exists()
    ```
 9. Среди обращений со службой с кодом "ОЗ" вывести дату самого первого обращения
+   ```python
+   models.Request.objects.filter(emergency_service__service_code='02').order_by('request_date').first()
+   ```
 10. Получить все обращения, которые созданы до определенной даты
+   ```python
+   from datetime import datetime
+   models.Request.objects.filter(request_date__lt=datetime(2022, 9, 23))
+   ```
 11. Получить всех заявителей без изображения и/или без номера телефона
-12. Получить всех заявителей, с определенным кодом оператора (917)
-13. Получить результат объединения, пересечения и разницы предыдущих двух запросов.
+   ```python
+   models.Applicant.objects.filter(Q(phone_number__exact="") | Q(image__exact=""))
+   ```
+12. Получить всех заявителей, с определенным кодом оператора (917) со службой 01
+   ```python
+   
+   ```
+13. Получить результат объединения, пересечения и разницы предыдущих двух запросов
 14. Вывести все обращения, созданные в определенный период
+   ```python
+   models.Request.objects.filter(request_date__range=[datetime(2022, 1, 1), datetime(2022, 12, 12)])
+   ```
 15. Получить количество заявителей без номера телефона
+   ```python
+   models.Applicant.objects.filter(phone_number__exact='').count()
+   ```
 16. Выведите все уникальные записи модели заявитель
+   ```python
+   models.Applicant.objects.distinct()
+   ```
 17. Получить все обращения, в описании которых есть какое то ключевое слово в любом регистре.
+   ```python
+   models.Request.objects.filter(description__icontains='so')
+   ```
 18. Выбрать всех заявителей, при этом получить только значения поля "номер телефона"
+   ```python
+   Applicant.objects.all().values_list('phone_number', flat=True)
+   ```
 19. Выбрать всех заявителей, при этом получить все поля, кроме состояния здоровья
-20. Вывести все службы используя за! запрос
+   ```python
+   models.Applicant.objects.all().defer('health_status')
+   ```
+20. Вывести все службы используя SQL запрос
+   ```python
+   for i in models.EmergencyService.objects.raw('SELECT * FROM emergency_request_emergencyservice'):
+      print(i.service_name)
+   ```
 21. Выберите или создайте заявителя с номером "12341234"
+   ```python
+      models.Applicant.objects.create(
+         id='12341234', first_name='Daniel', last_name='Longi', middle_name='Milkovich', 
+         birthdate='1988-05-13', health_status='Healthy', phone_number='+2982928282', gender='Мужчина',
+         image='/',  request_id=5)
+   ```
 22. Измените номер заявителя с номером "12341234" на любой другой, если заявителя, то запрос должен его создать.
 23. Создайте сразу несколько заявителей.
+   ```python
+      Applicant.objects.bulk_create([Applicant(first_name='Misha'), Applicant(first_name='Masha')])
+   ```
 24. Измените несколько заявителей. Для поля "состояние здоровья" задайте значение "Полностью здоров"
-25. Выведите имя заявителя у какого-либо обращения. Убедитесь, что было сделано не более одного запроса.
+   ```python
+   models.Applicant.objects.all().update(health_status='Полностью здоров')
+   ```
+26. Выведите имя заявителя у какого-либо обращения. Убедитесь, что было сделано не более одного запроса.
+   
 26. Выведите список всех обращений с указанием списка задействованных экстренных служб в следующем формате: "номер
 обращения: ‚ список кодов служ
 27. Выведите все значения дат создания происшествий. Поместите даты в список.
-
+   ```python
+   lst = []
+   models.Request.objects.all().values()
+   for i in _: lst.append(i['request_date'].date())
+   lst
+   ```
  
