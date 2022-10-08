@@ -20,7 +20,6 @@ class EmergencyService(models.Model):
     class Meta:
         verbose_name = 'Экстренная служба'
         verbose_name_plural = 'Экстренные службы'
-        ordering = ('-service_code',)
 
     def __str__(self):
         return self.service_name[:10]
@@ -74,7 +73,6 @@ class Applicant(models.Model):
     class Meta:
         verbose_name = 'Заявитель'
         verbose_name_plural = 'Заявители'
-        ordering = ('-first_name',)
 
     def __str__(self):
         return self.first_name
@@ -119,7 +117,6 @@ class Request(models.Model):
     class Meta:
         verbose_name = 'Обращение'
         verbose_name_plural = 'Обращения'
-        ordering = ('-request_number', '-request_date',)
 
     def __str__(self):
         return str(self.request_number)

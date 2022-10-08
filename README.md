@@ -313,6 +313,7 @@
    ```python
    models.Applicant.objects.get(id=1).request.request_number
    ```
+   
 2. Получить всех заявителей определенного пола и без обращений
    ```python
    models.Applicant.objects.filter(gender='Female', request__isnull=True)
@@ -352,13 +353,19 @@
    ```
 11. Получить всех заявителей без изображения и/или без номера телефона
    ```python
-   models.Applicant.objects.filter(Q(phone_number__exact="") | Q(image__exact=""))
+   from django.db.models import Q
+   a = models.Applicant.objects.filter(Q(phone_number__exact="") | Q(image__exact=""))
    ```
 12. Получить всех заявителей, с определенным кодом оператора (917) со службой 01
    ```python
-   models.Applicant.objects.filter(requests__emergency_service__service_code='01')
+   b = models.Applicant.objects.filter(requests__emergency_service__service_code='01')
    ```
 13. Получить результат объединения, пересечения и разницы предыдущих двух запросов
+   ```python
+   a.union(b)
+   a.intersection(b)
+   a.difference(b)
+   ```
 14. Вывести все обращения, созданные в определенный период
    ```python
    models.Request.objects.filter(request_date__range=[datetime(2022, 1, 1), datetime(2022, 12, 12)])

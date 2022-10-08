@@ -11,7 +11,7 @@ factory_ru = Factory.create('ru_RU')
 class Applicant(factory.django.DjangoModelFactory):
     first_name = factory.Sequence(lambda n: factory_ru.text(max_nb_chars=10))
     last_name = factory.Sequence(lambda n: factory_ru.text(max_nb_chars=10))
-    middle_name = factory.Sequence(lambda n: factory_ru.phone_number())
+    middle_name = factory.Sequence(lambda n: factory_ru.text(max_nb_chars=10))
     birthdate = factory.Sequence(lambda n: factory_ru.date())
     health_status = factory.Sequence(lambda n: factory_ru.text(max_nb_chars=10))
     phone_number = factory.Sequence(lambda n: factory_ru.phone_number())
