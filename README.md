@@ -84,139 +84,7 @@
 
 В модуле models.py опишите модели:
 
-1. Модель экстренной службы:
-
-   ```python
-   class EmergencyService(models.Model):
-    """Экстренная служба."""
-    service_name = models.CharField(
-        max_length=255,
-        verbose_name='Имя экстренной службы',
-    )
-    service_code = models.IntegerField(
-        verbose_name='Код экстренной службы',
-    )
-    phone_number = models.CharField(
-        max_length=255,
-        verbose_name='Телефон экстренной службы',
-    )
-
-    class Meta:
-        verbose_name = 'Экстренная служба'
-        verbose_name_plural = 'Экстренные службы'
-        ordering = ('-service_code',)
-
-    def __str__(self):
-        return self.service_name[:10]
-
-   ```
-
-2. Модель заявителя:
-
-   ```python
-   class Applicant(models.Model):
-    """Заявитель. """
-    MALE = 'Male'
-    FEMALE = 'Female'
-    GENDER_CHOICES = (
-        (MALE, "Мужчина"),
-        (FEMALE, "Женщина"),
-    )
-    first_name = models.CharField(
-        max_length=255,
-        verbose_name='Имя заявителя',
-    )
-    last_name = models.CharField(
-        max_length=255,
-        verbose_name='Фамилия заявителя',
-    )
-    middle_name = models.CharField(
-        max_length=255,
-        verbose_name='Отчество заявителя',
-    )
-    birthdate = models.DateField(verbose_name='Дата рождения заявителя')
-    health_status = models.TextField(
-        max_length=255,
-        verbose_name='Состояние здоровья',
-        default='Практически здоров',
-        help_text='аллергоанамез, хроническе, заболевания и т.п.',
-        blank=True,
-    )
-    phone_number = models.CharField(
-        max_length=255,
-        verbose_name='Телефон заявителя',
-        blank=True,
-    )
-    gender = models.CharField(
-        max_length=255,
-        choices=GENDER_CHOICES,
-        verbose_name='Пол',
-    )
-    image = models.ImageField(
-        verbose_name='Изображение заявителя',
-        help_text='Добавьте изображения заявителя',
-        upload_to='photos/applicants/%Y/%m/%d',
-        blank=True,
-    )
-    request = models.ForeignKey(
-        'Request',
-        related_name='applicants',
-        on_delete=models.CASCADE,
-        verbose_name='Обращение',
-    )
-
-    class Meta:
-        verbose_name = 'Заявитель'
-        verbose_name_plural = 'Заявители'
-        ordering = ('-first_name',)
-
-    def __str__(self):
-        return self.first_name
-
-   ```
-
-3. Модель обращения:
-
-   ```python
-   class Request(models.Model):
-    """Обращение."""
-    IN_WORK = 'Male'
-    COMPLETED = 'Female'
-    STATUS_CHOICES = (
-        (IN_WORK, "В работе"),
-        (COMPLETED, "Завершено"),
-    )
-    request_number = models.UUIDField(
-        default=uuid.uuid4,
-        editable=False,
-        verbose_name='Номер карточки',
-    )
-    request_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата обращения')
-    injured = models.IntegerField(verbose_name='Количество пострадавших')  # ?
-    do_not_call = models.CharField(max_length=255, verbose_name='Не звонить')  # ?
-    # Импортируем модели явно, не используя *. from emergency_request import models; m = models.Model.objects.all()
-    status = models.CharField(
-        max_length=255,
-        choices=STATUS_CHOICES,
-        default=STATUS_CHOICES[0][0],
-        verbose_name='Статус',
-    )
-    emergency_service = models.ForeignKey(
-        'EmergencyService',
-        related_name='requests',
-        on_delete=models.CASCADE,
-        verbose_name='Экстренная служба',
-    )
-
-    class Meta:
-        verbose_name = 'Обращение'
-        verbose_name_plural = 'Обращения'
-        ordering = ('-request_number', '-request_date',)
-
-    def __str__(self):
-        return str(self.request_number)
-
-   ```
+1. Создать модель экстренной службы, обращения и заявителя.
 
 ## 1.2 Поля моделей
 
@@ -488,7 +356,7 @@
    ```
 12. Получить всех заявителей, с определенным кодом оператора (917) со службой 01
    ```python
-   
+   models.Applicant.objects.filter(requests__emergency_service__service_code='01')
    ```
 13. Получить результат объединения, пересечения и разницы предыдущих двух запросов
 14. Вывести все обращения, созданные в определенный период
@@ -503,7 +371,7 @@
    ```python
    models.Applicant.objects.distinct()
    ```
-17. Получить все обращения, в описании которых есть какое то ключевое слово в любом регистре.
+17. Получить все обращения, в описании которых есть какое-то ключевое слово в любом регистре.
    ```python
    models.Request.objects.filter(description__icontains='so')
    ```
@@ -522,12 +390,18 @@
    ```
 21. Выберите или создайте заявителя с номером "12341234"
    ```python
-      models.Applicant.objects.create(
+      obj, created = models.Applicant.objects.get_or_create(
          id='12341234', first_name='Daniel', last_name='Longi', middle_name='Milkovich', 
          birthdate='1988-05-13', health_status='Healthy', phone_number='+2982928282', gender='Мужчина',
-         image='/',  request_id=5)
+         image='/')
    ```
 22. Измените номер заявителя с номером "12341234" на любой другой, если заявителя, то запрос должен его создать.
+   ```python
+      obj, created = models.Applicant.objects.update_or_create(
+         id='12341234', first_name='Daniel', last_name='Longi', middle_name='Milkovich',
+         birthdate='1988-05-12', health_status='Healthy', phone_number='+2982928282', gender='Мужчина',
+         image='/', defaults={'id': '123412369'})
+   ```
 23. Создайте сразу несколько заявителей.
    ```python
       Applicant.objects.bulk_create([Applicant(first_name='Misha'), Applicant(first_name='Masha')])
@@ -536,10 +410,16 @@
    ```python
    models.Applicant.objects.all().update(health_status='Полностью здоров')
    ```
-26. Выведите имя заявителя у какого-либо обращения. Убедитесь, что было сделано не более одного запроса.
-   
+25. Выведите имя заявителя у какого-либо обращения. Убедитесь, что было сделано не более одного запроса.
+   ```python
+   models.Applicant.objects.filter(request__id=4).first().first_name
+   ```
 26. Выведите список всех обращений с указанием списка задействованных экстренных служб в следующем формате: "номер
-обращения: ‚ список кодов служ
+обращения: ‚ список кодов служб
+   ```python
+   r = models.Request.objects.all()
+   r.values_list('request_number', 'emergency_service')
+   ```
 27. Выведите все значения дат создания происшествий. Поместите даты в список.
    ```python
    lst = []

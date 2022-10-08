@@ -1,2 +1,4 @@
-n = str(input())
-print('Привет, {}'.format(n))
+class Dog:
+    def __init__(self, name):
+        self.name = name
+
