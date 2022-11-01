@@ -361,7 +361,7 @@
    a.intersection(b)
    a.difference(b)
    ```
-14. Вывести все обращения, созданные в определенный период
+14. Вывести все обращения, созданные в опредkеленный период
    ```python
    models.Request.objects.filter(request_date__range=[datetime(2022, 1, 1), datetime(2022, 12, 12)])
    ```

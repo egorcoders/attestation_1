@@ -16,7 +16,7 @@ class ApplicantSerializer(serializers.ModelSerializer):
 
 
 class RequestSerializer(serializers.ModelSerializer):
-    applicant = serializers.SlugRelatedField(read_only=True, slug_field='middle_name')
+    applicant = serializers.SlugRelatedField(read_only=True, slug_field='patronymic')
     emergency_service = serializers.SlugRelatedField(read_only=True, many=True, slug_field='service_name')
 
     class Meta:
