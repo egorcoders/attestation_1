@@ -71,7 +71,6 @@ class Request(models.Model):
     dc = models.DateTimeField('Дата создания', auto_now_add=True)
     injured = models.PositiveIntegerField(
         'Количество пострадавших',
-        editable=False
     )
     do_not_call = models.BooleanField('Не звонить', default=False)
     status = models.CharField(
