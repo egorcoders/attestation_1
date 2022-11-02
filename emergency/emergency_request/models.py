@@ -3,7 +3,6 @@ import uuid
 from . import consts
 
 
-
 class EmergencyService(models.Model):
     """Экстренные службы."""
     service_name = models.CharField('Имя экстренной службы', max_length=255)
