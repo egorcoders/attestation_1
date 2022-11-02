@@ -9,6 +9,7 @@ class EmergencyService(models.Model):
     service_code = models.CharField('Код экстренной службы', max_length=255)
     phone_number = models.CharField('Телефон экстренной службы', max_length=255)
 
+
     class Meta:
         verbose_name = 'Экстренная служба'
         verbose_name_plural = 'Экстренные службы'
