@@ -1,28 +1,22 @@
-from django.http import HttpResponse
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from django.shortcuts import get_object_or_404, render
 
-from . import models, serializers
+from . models import EmergencyService, Applicant
 
 
-def index(request):
-    return HttpResponse('Привет')
+def views_1(request):
+    """
+    Создать представление, отображающее количество всех происшествий.
+    Выводить 404, если их нет.
+    """
+    emergencies = EmergencyService.objects.all()
+    context = {'emergencies': emergencies}
+    return render(request, 'emergency_request/views_1.html', context)
 
 
-def main_page(request):
-    return HttpResponse('Главная страница')
-
-
-def ice_cream_number(request, pk: int):
-    return HttpResponse(f'Главная страница, {pk}')
-
-
-def ice_cream_slug(request, slug: str):
-    return HttpResponse(f'Главная страница, {slug}')
-
-
-@api_view(['GET'])
-def applicant_list(request) -> Response:
-    applicants = models.Applicant.objects.all().orer_by('-')
-    serializer = serializers.ApplicantSerializer(applicants, many=True)
-    return Response(serializer.data)
+def views_2(request, applicant_id):
+    """
+    Создать представление, отображающее номер телефона заявителя с определенным id,
+    указанным в качестве параметра к запросу. Вернуть 404 если такого заявителя не существует.
+    """
+    applicant = get_object_or_404(Applicant, pk=applicant_id)
+    return render(request, 'emergency_request/views_2.html', {'applicant': applicant})
