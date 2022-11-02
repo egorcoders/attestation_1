@@ -12,3 +12,4 @@ urlpatterns = [
     path('views_5/', views.views_5, name='views_5'),
     path('views_6/', views.views_6, name='views_6'),
 ]
+
