@@ -1,0 +1,12 @@
+<div class="container">
+    <header class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="{% url 'emergency_request:views_1' %}"
+                                    class="nav-link {% if navbar == 'views_1' %}active{% endif %}"
+                                    aria-current="page">Views</a></li>
+            <li class="nav-item"><a href="{% url 'emergency_request:models_1' %}"
+                                    class="nav-link {% if navbar == 'models_1' %}active{% endif %}"
+                                    aria-current="page">Models</a></li>
+        </ul>
+    </header>
+</div>

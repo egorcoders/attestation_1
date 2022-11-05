@@ -1,17 +1,27 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    {% if attributes %}
-        <p>{{ attributes }}</p>
-    {% else %}
-        <p>No polls are available.</p>
-    {% endif %}
-</body>
-</html>
+{% extends 'base.html' %}
+{% load emergency_extras %}
+
+{% block nav %}
+    {% include 'includes/nav.html' %}
+{% endblock %}
+
+{% block title %}
+1.5 Представления (Views).
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1>
+        Создать представление, которое отображает данные входящего запроса (HttpRequest Attributes)
+    </h1>
+    <div class="container py-5 align-items-center">
+        {% if attributes %}
+            {% for k, v in attributes.items %}
+                <p>{{ k }} : {{ v }}</p>
+            {% endfor %}
+        {% else %}
+            <p>Not available.</p>
+        {% endif %}
+    </div>
+
+    {% endblock content %}

@@ -2,17 +2,17 @@
 {% load emergency_extras %}
 
 {% block nav %}
-    {% include 'includes/nav.html' %}
+    {% include 'includes/nav_models.html' %}
 {% endblock %}
 
 {% block title %}
-1.5 Представления (Views).
+Экстренные службы
 {% endblock %}
 
 {% block content %}
 <div class="container py-5">
     <h1>
-        Создать представление, отображающее количество всех происшествий. Выводить 404, если их нет.
+        Экстренные службы
     </h1>
     <div class="container py-5 align-items-center">
         {% if emergencies %}
@@ -29,7 +29,7 @@
             <tbody>
             {% for emergency in emergencies %}
             <tr>
-                <th scope="row">{{ emergency.id }}</th>
+                <th scope="row"><a href="{% url 'emergency_request:model_1' emergency.id %}">{{ emergency.id }}</a></th>
                 <td>{{ emergency.service_name }}</td>
                 <td>{{ emergency.service_code }}</td>
                 <td>{{ emergency.phone_number }}</td>

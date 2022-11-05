@@ -97,5 +97,5 @@ class Request(models.Model):
         verbose_name_plural = 'Обращения'
         ordering = ('dc',)
 
-    def __str__(self):
-        return f'{self.pk} {self.applicant}'
+    # def __str__(self):
+    #     return f'{self.pk} {self.applicant}'
