@@ -16,7 +16,9 @@
             <li class="nav-item"><a href="{% url 'emergency_request:views_4' %}"
                                     class="nav-link {% if navbar == 'views_4' %}active{% endif %}"
                                     aria-current="page">4</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">5</a></li>
+            <li class="nav-item"><a href="{% url 'emergency_request:views_6' 2 %}"
+                                    class="nav-link {% if navbar == 'views_6' %}active{% endif %}"
+                                    aria-current="page">6</a></li>
         </ul>
     </header>
 </div>

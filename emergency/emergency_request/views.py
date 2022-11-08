@@ -1,3 +1,4 @@
+from django.forms import model_to_dict
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 
@@ -16,20 +17,42 @@ def extra_3(request):
     return render(request, 'emergency_request/extra_3.html', context)
 
 
-def model_1(request, applicant_id):
+def model_1(request, emergency_id):
     """
-    Экстренная служба
+    Вывод экземпляра класса экстренной службы
     """
-    emergency = EmergencyService.objects.get(id=applicant_id)
+    emergency = EmergencyService.objects.get(id=emergency_id)
     context = {
         'emergency': emergency,
         'navbar': 'models_1'}
     return render(request, 'emergency_request/model_1.html', context)
 
 
+def model_2(request, applicant_id):
+    """
+    Вывод экземпляра класса заявителя
+    """
+    applicant = Applicant.objects.get(id=applicant_id)
+    context = {
+        'applicant': applicant,
+        'navbar': 'models_2'}
+    return render(request, 'emergency_request/model_2.html', context)
+
+
+def model_3(request, request_id):
+    """
+    Вывод экземпляра класса экстренной обращения
+    """
+    single_request = Request.objects.get(id=request_id)
+    context = {
+        'single_request': single_request,
+        'navbar': 'models_3'}
+    return render(request, 'emergency_request/model_3.html', context)
+
+
 def models_1(request):
     """
-    Экстренные службы
+    Вывод экстренных служб
     """
     emergencies = EmergencyService.objects.all().order_by('id')
     context = {
@@ -40,7 +63,7 @@ def models_1(request):
 
 def models_2(request):
     """
-    Заявители
+    Вывод заявителей
     """
     applicants = Applicant.objects.all().order_by('id')
     context = {
@@ -51,7 +74,7 @@ def models_2(request):
 
 def models_3(request):
     """
-    Обращения
+    Вывод обращений
     """
     requests = Request.objects.all().order_by('id')
     context = {
@@ -112,8 +135,13 @@ def views_5(request):
     return render(request, 'emergency_request/views_5.html', context)
 
 
-def views_6(request):
+def views_6(request, applicant_id):
     """
-    Создать представление, отдающее данные заявителя в json-формате. (JsonResponse).
+    Создать представление, отдающее данные заявителя в json-формате. (json response)
     """
-    return JsonResponse({'text': 'Just rendering some JSON :)'})
+    applicant = get_object_or_404(Applicant, pk=applicant_id)
+    context = {
+        'navbar': 'views_6',
+        'json': JsonResponse(model_to_dict(applicant), json_dumps_params={'ensure_ascii': False}).content
+    }
+    return render(request, 'emergency_request/views_6.html', context)

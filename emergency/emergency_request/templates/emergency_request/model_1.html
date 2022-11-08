@@ -5,9 +5,9 @@
     {% include 'includes/nav_models.html' %}
 {% endblock %}
 
-{% block title %}
-Экстренная служба
-{% endblock %}
+{% if emergency %}
+    <td>{{ emergency.service_name }}</td>
+{% endif %}
 
 {% block content %}
 <div class="container py-5">
@@ -23,7 +23,6 @@
                 <th scope="col">Имя службы</th>
                 <th scope="col">Коды службы</th>
                 <th scope="col">Телефон</th>
-                </th>
             </tr>
             </thead>
             <tbody>
@@ -39,5 +38,5 @@
             <p>Not available.</p>
         {% endif %}
     </div>
-
-    {% endblock content %}
+</div>
+{% endblock content %}

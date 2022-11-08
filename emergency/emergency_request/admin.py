@@ -16,7 +16,7 @@ class EmergencyServiceAdmin(admin.ModelAdmin):
 class ApplicantAdmin(admin.ModelAdmin):
     list_display = (
         'pk', 'first_name', 'patronymic', 'birthdate',
-        'health_status', 'phone_number', 'gender', 'image', 'get_request',
+        'health_status', 'phone_number', 'gender', 'get_request',
     )
     list_editable = ('gender',)
     list_filter = ('gender', 'requests__emergency_service')

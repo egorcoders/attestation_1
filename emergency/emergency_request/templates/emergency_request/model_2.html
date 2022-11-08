@@ -6,16 +6,18 @@
 {% endblock %}
 
 {% block title %}
-Заявители
+    {% if applicant %}
+        <td>{{ applicant.first_name }}</td>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
 <div class="container py-5">
     <h1>
-        Заявители
+        Заявитель
     </h1>
     <div class="container py-5 align-items-center">
-        {% if applicants %}
+        {% if applicant %}
         <table class="table">
             <thead class="thead-light col-md-5">
             <tr>
@@ -30,9 +32,8 @@
             </tr>
             </thead>
             <tbody>
-            {% for applicant in applicants %}
             <tr>
-                <th scope="row"><a href="{% url 'emergency_request:model_2' applicant.id %}">{{ applicant.id }}</a></th>
+                <th scope="row">{{ applicant.id }}</th>
                 <td>{{ applicant.first_name }}</td>
                 <td>{{ applicant.last_name }}</td>
                 <td>{{ applicant.patronymic }}</td>
@@ -41,7 +42,6 @@
                 <td>{{ applicant.phone_number }}</td>
                 <td>{{ applicant.gender }}</td>
             </tr>
-            {% endfor %}
             </tbody>
         </table>
         {% else %}
@@ -49,4 +49,5 @@
         {% endif %}
     </div>
 </div>
+
 {% endblock content %}

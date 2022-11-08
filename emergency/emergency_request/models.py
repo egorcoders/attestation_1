@@ -39,12 +39,12 @@ class Applicant(models.Model):
         choices=consts.GENDER_CHOICES,
         default=consts.MALE,
     )
-    image = models.ImageField(
-        'Изображение заявителя',
-        help_text='Добавьте изображения заявителя',
-        upload_to='photos/applicants/%Y/%m/%d',
-        blank=True,
-    )
+    # image = models.ImageField(
+    #     'Изображение заявителя',
+    #     help_text='Добавьте изображения заявителя',
+    #     upload_to='photos/applicants/%Y/%m/%d',
+    #     blank=True,
+    # )
 
     class Meta:
         verbose_name = 'Заявитель'
