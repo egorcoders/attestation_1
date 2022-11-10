@@ -28,7 +28,7 @@ class Applicant(factory.django.DjangoModelFactory):
     health_status = factory.Sequence(lambda n: factory_ru.text(max_nb_chars=10))
     phone_number = factory.Sequence(lambda n: factory_ru.phone_number())
     gender = fuzzy.FuzzyChoice(i[0] for i in consts.GENDER_CHOICES)
-    image = factory.Sequence(lambda n: factory_ru.image_url())
+    # image = factory.Sequence(lambda n: factory_ru.image_url())
 
     class Meta:
         model = models.Applicant

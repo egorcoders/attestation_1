@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load emergency_extras %}
+
+{% if emergency %}
+<td>{{ emergency.service_name }}</td>
+{% endif %}
+
+{% block content %}
+<div class="container py-5 align-items-center">
+    <h1>
+        Экстренная служба
+    </h1>
+    <br>
+    {% if emergency %}
+    <div class="jumbotron p-3 p-md-5 text-white rounded bg-info">
+        <div class="col-md-6 px-0">
+            <h1 class="display-4 font-italic">{{ emergency.service_name }}</h1>
+            <p class="lead my-3">Код службы: {{ emergency.service_code }}</p>
+            <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Телефон:
+                {{ emergency.phone_number}}</a></p>
+            <p class="lead my-3">{% lorem 1 p %}</p>
+        </div>
+    </div>
+
+    {% else %}
+    <p>Not available.</p>
+    {% endif %}
+</div>
+
+{% endblock content %}

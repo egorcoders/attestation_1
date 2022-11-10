@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load emergency_extras %}
+
+{% block nav %}
+    {% include 'includes/nav.html' %}
+{% endblock %}
+
+{% block title %}
+1.5 Представления (Views).
+{% endblock %}
+
+{% block content %}
+    <div class="container py-5 align-items-center">
+        <h1>
+            Создать представление, отображающее номер телефона заявителя с id {{ phone_number }},
+            указанным в качестве параметра к запросу. Вернуть 404 если такого заявителя не существует.
+        </h1>
+            <br>
+
+        {% if applicant %}
+        <table class="table">
+            <thead class="thead-light col-md-5">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Фамилия</th>
+                <th scope="col">Отчество</th>
+                <th scope="col">ДР</th>
+                <th scope="col">Статус здоровья</th>
+                <th scope="col">Телефон</th>
+                <th scope="col">Пол</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">{{ applicant.id }}</th>
+                <td>{{ applicant.first_name }}</td>
+                <td>{{ applicant.last_name }}</td>
+                <td>{{ applicant.patronymic }}</td>
+                <td>{{ applicant.birthdate }}</td>
+                <td>{{ applicant.health_status }}</td>
+                <td>{{ applicant.phone_number }}</td>
+                <td>{{ applicant.gender }}</td>
+            </tr>
+            </tbody>
+        </table>
+        {% else %}
+            <p>Not available.</p>
+        {% endif %}
+    </div>
+
+    {% endblock content %}

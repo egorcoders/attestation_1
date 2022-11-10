@@ -1,0 +1,18 @@
+<div class="container">
+    <header class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="{% url 'emergency_request:extra_3' %}"
+                                    class="nav-link {% if navbar == 'extra_3' %}active{% endif %}"
+                                    aria-current="page">Главная</a></li>
+            <li class="nav-item"><a href="{% url 'emergency_request:emergencies_v' %}"
+                                    class="nav-link {% if navbar == 'emergencies_v' %}active{% endif %}"
+                                    aria-current="page">Экстренные службы</a></li>
+            <li class="nav-item"><a href="{% url 'emergency_request:applicants_v' %}"
+                                    class="nav-link {% if navbar == 'applicants_v' %}active{% endif %}"
+                                    aria-current="page">Заявители</a></li>
+            <li class="nav-item"><a href="{% url 'emergency_request:requests_v' %}"
+                                    class="nav-link {% if navbar == 'requests_v' %}active{% endif %}"
+                                    aria-current="page">Обращения</a></li>
+        </ul>
+    </header>
+</div>

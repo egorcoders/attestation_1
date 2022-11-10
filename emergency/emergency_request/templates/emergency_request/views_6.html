@@ -2,7 +2,7 @@
 {% load emergency_extras %}
 
 {% block nav %}
-    {% include 'includes/nav.html' %}
+{% include 'includes/nav.html' %}
 {% endblock %}
 
 {% block title %}
@@ -10,16 +10,14 @@
 {% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <h1>
-        Создать представление, отдающее данные заявителя в json-формате. (json response)
-    </h1>
-    <div class="container py-5 align-items-center">
-        {% if json %}
-            {{ json }}
-        {% else %}
-            <p>Not available.</p>
-        {% endif %}
-    </div>
+<div class="container py-5 align-items-center">
+    <h1>Создать представление, отдающее данные заявителя в json-формате. (json response)</h1>
+    <br>
 
-    {% endblock content %}
+    {% if json %}
+    {{ json }}
+    {% else %}
+    <p>Not available.</p>
+    {% endif %}
+</div>
+{% endblock content %}

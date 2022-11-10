@@ -4,19 +4,20 @@ from typing import Union
 
 
 class EmergencyServiceAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'service_name', 'service_code', 'phone_number')
+    list_display = ('pk', 'service_name', 'service_code', 'phone_number', 'slug')
     list_editable = ('phone_number', 'service_code')
     list_filter = ('service_code',)
     search_fields = ['service_name', 'service_code']
     search_help_text = 'Поиск по имени и коду'
     empty_value_display = '-empty-'
+    prepopulated_fields = {"slug": ("service_name",)}
 
 
 @admin.register(Applicant)
 class ApplicantAdmin(admin.ModelAdmin):
     list_display = (
         'pk', 'first_name', 'patronymic', 'birthdate',
-        'health_status', 'phone_number', 'gender', 'get_request',
+        'health_status', 'phone_number', 'gender', 'get_request'
     )
     list_editable = ('gender',)
     list_filter = ('gender', 'requests__emergency_service')

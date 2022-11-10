@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load emergency_extras %}
+
+{% block nav %}
+{% include 'includes/nav_models.html' %}
+{% endblock %}
+
+{% block title %}
+Обращения
+{% endblock %}
+
+{% block content %}
+<div class="container py-5 align-items-center">
+        <h1>Обращения</h1>
+        <br>
+
+        <div class="row">
+            <div class="col">
+                {% if requests %}
+                <table class="table">
+                    <thead class="thead-light col-md-5">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Описание</th>
+                        <th scope="col">Номер карточки</th>
+                        <th scope="col">Дата создания</th>
+                        <th scope="col">Прошло времени</th>
+                        <th scope="col">Количество пострадавших</th>
+                        <th scope="col">Не звонить</th>
+                        <th scope="col">Статус</th>
+                        <th scope="col">Экстренная служба</th>
+                        <th scope="col">Среднее количество служб</th>
+                        <th scope="col">Заявитель</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for request in requests %}
+                    <tr class="{% if forloop.first or forloop.last %}{{ color_choices }}{% endif %}">
+                        <th scope="row"><a href="{% url 'emergency_request:request_f' request.id %}">{{ request.id }}</a>
+                        </th>
+                        <td>{{ request.text|lower|capfirst }}</td>
+                        <td>{{ request.number }}</td>
+                        <td>{{ request.dc|date }}</td>
+                        <td>{{ request.dc|timesince }}</td>
+                        <td>{{ request.injured }}</td>
+                        <td>{{ request.do_not_call|yesno:"Звонить,Не звонить" }}</td>
+                        <td>{{ request.status }}</td>
+                        <td>
+                            {{ request.emergency_service.all|join:", "|upper }}
+                        </td>
+                        <td>{{ request.emergency_service.count|floatformat }}</td>
+                        <td>{{ request.applicant.first_name }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>Not available.</p>
+                {% endif %}
+                <p>Количество записей: {{ requests|length }} шт.</p>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
