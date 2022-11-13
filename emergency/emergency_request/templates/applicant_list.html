@@ -1,9 +1,4 @@
 {% extends 'base.html' %}
-{% load emergency_extras %}
-
-{% block nav %}
-    {% include 'includes/nav_models_v.html' %}
-{% endblock %}
 
 {% block title %}
 Заявители
@@ -13,7 +8,6 @@
 <div class="container py-5 align-items-center">
         <h1>Заявители</h1>
         <br>
-
         {% if applicants %}
         <table class="table">
             <thead class="thead-light col-md-5">
@@ -31,7 +25,9 @@
             <tbody>
             {% for applicant in applicants %}
             <tr class="{% if forloop.first or forloop.last %}{{ color_choices }}{% endif %}">
-                <th scope="row"><a href="{% url 'emergency_request:applicant_v' applicant.id %}">{{ applicant.id }}</a></th>
+
+                {% block applicant %}APPLICANT{% endblock applicant %}
+
                 <td>{{ applicant.first_name | lower | capfirst | default:"Вася" }}</td>
                 <td>{{ applicant.last_name | lower | capfirst | default:"Васильев" }}</td>
                 <td>{{ applicant.patronymic | lower | capfirst | default:"Васильевич" }}</td>

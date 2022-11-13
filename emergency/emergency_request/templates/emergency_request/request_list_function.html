@@ -1,0 +1,5 @@
+{% extends 'request_list.html' %}
+
+{% block request %}
+<th scope="row"><a href="{% url 'emergency_request:request_detail_function' request.id %}">{{ request.id }}</a></th>
+{% endblock %}

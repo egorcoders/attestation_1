@@ -1,9 +1,4 @@
 {% extends 'base.html' %}
-{% load emergency_extras %}
-
-{% block nav %}
-{% include 'includes/nav_models.html' %}
-{% endblock %}
 
 {% block title %}
 Экстренные службы
@@ -13,7 +8,6 @@
 <div class="container py-5 align-items-center">
         <h1>Экстренные службы</h1>
         <br>
-
         {% if emergencies %}
         <table class="table">
             <thead class="thead-light col-md-5">
@@ -27,7 +21,7 @@
             <tbody>
             {% for emergency in emergencies %}
             <tr class="{% if forloop.first or forloop.last %}{{ color_choices }}{% endif %}">
-                <th scope="row"><a href="{% url 'emergency_request:emergency_f' emergency.slug %}">{{ emergency.id }}</a></th>
+                {% block emergency %} EMERGENCY {% endblock emergency %}
                 <td>{{ emergency.service_name|upper }}</td>
                 <td>{{ emergency.service_code }}</td>
                 <td>{{ emergency.phone_number }}</td>

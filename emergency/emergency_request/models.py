@@ -7,7 +7,7 @@ from . import consts
 class EmergencyService(models.Model):
     """Экстренные службы."""
     service_name = models.CharField('Имя экстренной службы', max_length=255)
-    service_code = models.CharField('Код экстренной службы', max_length=255)
+    service_code = models.CharField('Код экстренной службы', max_length=255)  # help text
     phone_number = models.CharField('Телефон экстренной службы', max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
 
@@ -40,12 +40,12 @@ class Applicant(models.Model):
         choices=consts.GENDER_CHOICES,
         default=consts.MALE,
     )
-    # image = models.ImageField(
-    #     'Изображение заявителя',
-    #     help_text='Добавьте изображения заявителя',
-    #     upload_to='photos/applicants/%Y/%m/%d',
-    #     blank=True,
-    # )
+    image = models.ImageField(
+        'Изображение заявителя',
+        help_text='Добавьте изображения заявителя',
+        upload_to='photos/applicants/%Y/%m/%d',
+        blank=True,
+    )
 
     class Meta:
         verbose_name = 'Заявитель'
@@ -96,7 +96,7 @@ class Request(models.Model):
     class Meta:
         verbose_name = 'Обращение'
         verbose_name_plural = 'Обращения'
-        ordering = ('dc',)
+        ordering = ('dc', 'number')
 
-    # def __str__(self):
-    #     return f'{self.pk} {self.applicant}'
+    def __str__(self):
+        return self.text[:15]

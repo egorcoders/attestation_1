@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Форма новых данных
+{% endblock %}
+
+{% block content %}
+<div class="container py-5 align-items-center">
+    <h1>Введите новые данные</h1>
+    <br>
+    <div class="row">
+        <div class="col">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

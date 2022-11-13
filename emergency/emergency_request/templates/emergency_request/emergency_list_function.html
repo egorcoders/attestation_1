@@ -1,0 +1,5 @@
+{% extends 'emergency_list.html' %}
+
+{% block emergency %}
+<th scope="row"><a href="{% url 'emergency_request:emergency_detail_function' emergency.slug %}">{{ emergency.id }}</a></th>
+{% endblock %}

@@ -17,9 +17,9 @@ class EmergencyServiceAdmin(admin.ModelAdmin):
 class ApplicantAdmin(admin.ModelAdmin):
     list_display = (
         'pk', 'first_name', 'patronymic', 'birthdate',
-        'health_status', 'phone_number', 'gender', 'get_request'
+        'health_status', 'phone_number', 'gender', 'get_request', 'image'
     )
-    list_editable = ('gender',)
+    list_editable = ('first_name', 'gender',)
     list_filter = ('gender', 'requests__emergency_service')
     search_fields = ['first_name']
     search_help_text = 'Поиск по имени'
@@ -34,6 +34,8 @@ class ApplicantAdmin(admin.ModelAdmin):
             ApplicantRequest,
         )
         return inlines
+
+    # Просто написать inlines
 
 
 @admin.register(Request)

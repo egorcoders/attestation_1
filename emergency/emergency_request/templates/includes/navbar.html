@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-primary">
-    <a class="navbar-brand" href="{% url 'emergency_request:extra_3' %}">iTCODE Education</a>
+    <a class="navbar-brand" href="/admin/">iTCODE Education</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04"
             aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -23,29 +23,29 @@
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">Экстренные службы</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown04">
-                    <a class="dropdown-item" href="{% url 'emergency_request:emergencies_f' %}">Список служб (Views)</a>
-                    <a class="dropdown-item" href="{% url 'emergency_request:emergencies_v' %}">Список служб
-                        (Class-based Views)</a>
+                    <a class="dropdown-item" href="{% url 'emergency_request:emergency_list_function' %}">Список служб (Functions)</a>
+                    <a class="dropdown-item" href="{% url 'emergency_request:emergency_list_view' %}">Список служб
+                        (Views)</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">Заявители</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown05">
-                    <a class="dropdown-item" href="{% url 'emergency_request:applicants_f' %}">Список заявителей
+                    <a class="dropdown-item" href="{% url 'emergency_request:applicant_list_function' %}">Список заявителей
+                        (Functions)</a>
+                    <a class="dropdown-item" href="{% url 'emergency_request:applicant_list_view' %}">Список заявителей
                         (Views)</a>
-                    <a class="dropdown-item" href="{% url 'emergency_request:applicants_v' %}">Список заявителей
-                        (Class-based Views)</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown06" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">Обращения</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown06">
-                    <a class="dropdown-item" href="{% url 'emergency_request:requests_f' %}">Список обращений
+                    <a class="dropdown-item" href="{% url 'emergency_request:request_list_function' %}">Список обращений
+                        (Functions)</a>
+                    <a class="dropdown-item" href="{% url 'emergency_request:request_list_view' %}">Список обращений
                         (Views)</a>
-                    <a class="dropdown-item" href="{% url 'emergency_request:requests_v' %}">Список обращений
-                        (Class-based Views)</a>
                 </div>
             </li>
         </ul>

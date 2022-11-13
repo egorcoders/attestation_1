@@ -15,6 +15,7 @@ class EmergencyService(factory.django.DjangoModelFactory):
     service_name = factory.Sequence(lambda n: factory_ru.text(max_nb_chars=10))
     service_code = factory.Sequence(lambda n: factory_ru.random_int(min=1, max=50))
     phone_number = factory.Sequence(lambda n: factory_ru.phone_number())
+    slug = factory.LazyAttribute(lambda o: '%s' % o.service_name.lower().replace(' ', '_'))
 
     class Meta:
         model = models.EmergencyService
@@ -28,13 +29,14 @@ class Applicant(factory.django.DjangoModelFactory):
     health_status = factory.Sequence(lambda n: factory_ru.text(max_nb_chars=10))
     phone_number = factory.Sequence(lambda n: factory_ru.phone_number())
     gender = fuzzy.FuzzyChoice(i[0] for i in consts.GENDER_CHOICES)
-    # image = factory.Sequence(lambda n: factory_ru.image_url())
+    image = factory.Sequence(lambda n: factory_ru.image_url())
 
     class Meta:
         model = models.Applicant
 
 
 class Request(factory.django.DjangoModelFactory):
+    text = factory.Sequence(lambda n: factory_ru.text(max_nb_chars=25))
     number = factory.Sequence(lambda n: str(uuid.uuid4()))
     dc = factory.Sequence(lambda n: factory_ru.date_time(
         tzinfo=zoneinfo.ZoneInfo(settings.TIME_ZONE)))

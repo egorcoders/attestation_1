@@ -1,9 +1,4 @@
 {% extends 'base.html' %}
-{% load emergency_extras %}
-
-{% block nav %}
-{% include 'includes/nav_models.html' %}
-{% endblock %}
 
 {% block title %}
 Обращения
@@ -36,7 +31,7 @@
                     <tbody>
                     {% for request in requests %}
                     <tr class="{% if forloop.first or forloop.last %}{{ color_choices }}{% endif %}">
-                        <th scope="row"><a href="{% url 'emergency_request:request_f' request.id %}">{{ request.id }}</a>
+                        <th scope="row"><a href="{% url 'emergency_request:request_v' request.id %}">{{ request.id }}</a>
                         </th>
                         <td>{{ request.text|lower|capfirst }}</td>
                         <td>{{ request.number }}</td>

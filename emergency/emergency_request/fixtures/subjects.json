@@ -1,0 +1,230 @@
+[
+{
+  "model": "emergency_request.emergencyservice",
+  "pk": 1,
+  "fields": {
+    "service_name": "Госпожа.",
+    "service_code": "35",
+    "phone_number": "8 (370) 651-4192",
+    "slug": "госпожа."
+  }
+},
+{
+  "model": "emergency_request.emergencyservice",
+  "pk": 2,
+  "fields": {
+    "service_name": "Металл.",
+    "service_code": "9",
+    "phone_number": "+7 (752) 785-0904",
+    "slug": "металл."
+  }
+},
+{
+  "model": "emergency_request.emergencyservice",
+  "pk": 3,
+  "fields": {
+    "service_name": "Добиться.",
+    "service_code": "34",
+    "phone_number": "8 007 073 8392",
+    "slug": "добиться."
+  }
+},
+{
+  "model": "emergency_request.emergencyservice",
+  "pk": 4,
+  "fields": {
+    "service_name": "Сходить.",
+    "service_code": "22",
+    "phone_number": "+7 677 078 01 23",
+    "slug": "сходить."
+  }
+},
+{
+  "model": "emergency_request.emergencyservice",
+  "pk": 5,
+  "fields": {
+    "service_name": "Столетие.",
+    "service_code": "22",
+    "phone_number": "8 609 102 8897",
+    "slug": "столетие."
+  }
+},
+{
+  "model": "emergency_request.applicant",
+  "pk": 1,
+  "fields": {
+    "first_name": "Пасть.",
+    "last_name": "Потом.",
+    "patronymic": "Ботинок.",
+    "birthdate": "2015-10-16",
+    "health_status": "Лететь.",
+    "phone_number": "+7 584 845 5582",
+    "gender": "Мужчина",
+    "image": "https://picsum.photos/862/726"
+  }
+},
+{
+  "model": "emergency_request.applicant",
+  "pk": 2,
+  "fields": {
+    "first_name": "Магазин.",
+    "last_name": "Спорт.",
+    "patronymic": "Намерение.",
+    "birthdate": "1975-12-19",
+    "health_status": "Песня.",
+    "phone_number": "8 504 146 39 33",
+    "gender": "Женщина",
+    "image": "https://dummyimage.com/571x564"
+  }
+},
+{
+  "model": "emergency_request.applicant",
+  "pk": 3,
+  "fields": {
+    "first_name": "Табак.",
+    "last_name": "Приятель.",
+    "patronymic": "Тяжелый.",
+    "birthdate": "1973-11-26",
+    "health_status": "Спешить.",
+    "phone_number": "8 (981) 114-84-66",
+    "gender": "Мужчина",
+    "image": "https://dummyimage.com/919x806"
+  }
+},
+{
+  "model": "emergency_request.applicant",
+  "pk": 4,
+  "fields": {
+    "first_name": "Господь.",
+    "last_name": "Плясать.",
+    "patronymic": "Серьезный.",
+    "birthdate": "1990-08-18",
+    "health_status": "Бетонный.",
+    "phone_number": "88376363376",
+    "gender": "Женщина",
+    "image": "https://picsum.photos/551/512"
+  }
+},
+{
+  "model": "emergency_request.applicant",
+  "pk": 5,
+  "fields": {
+    "first_name": "Новый.",
+    "last_name": "Угол.",
+    "patronymic": "Процесс.",
+    "birthdate": "1975-08-05",
+    "health_status": "Очко.",
+    "phone_number": "8 132 772 99 51",
+    "gender": "Женщина",
+    "image": "https://placeimg.com/551/372/any"
+  }
+},
+{
+  "model": "emergency_request.applicant",
+  "pk": 6,
+  "fields": {
+    "first_name": "Неправда.",
+    "last_name": "Что блин.",
+    "patronymic": "Один.",
+    "birthdate": "2017-07-30",
+    "health_status": "Тута.",
+    "phone_number": "80232731920",
+    "gender": "Мужчина",
+    "image": "https://picsum.photos/356/935"
+  }
+},
+{
+  "model": "emergency_request.applicant",
+  "pk": 7,
+  "fields": {
+    "first_name": "Точно.",
+    "last_name": "Бабочка.",
+    "patronymic": "Упорно.",
+    "birthdate": "1988-10-19",
+    "health_status": "При.",
+    "phone_number": "+7 103 188 2834",
+    "gender": "Мужчина",
+    "image": "https://picsum.photos/228/869"
+  }
+},
+{
+  "model": "emergency_request.request",
+  "pk": 1,
+  "fields": {
+    "text": "Тысяча нажать умолять.",
+    "number": "021122ea-8a18-42a7-a8d8-96afc3cc42dc",
+    "dc": "2022-11-11T14:05:51.629Z",
+    "injured": 7,
+    "do_not_call": false,
+    "status": "Завершено",
+    "applicant": 1,
+    "emergency_service": [
+      1
+    ]
+  }
+},
+{
+  "model": "emergency_request.request",
+  "pk": 2,
+  "fields": {
+    "text": "Функция процесс научить.",
+    "number": "0394503f-dd9c-4c5a-af91-2c0eac321028",
+    "dc": "2022-11-11T14:05:53.282Z",
+    "injured": 4,
+    "do_not_call": true,
+    "status": "Завершено",
+    "applicant": 2,
+    "emergency_service": [
+      2
+    ]
+  }
+},
+{
+  "model": "emergency_request.request",
+  "pk": 3,
+  "fields": {
+    "text": "Сохранять палец способ.",
+    "number": "1ba8b5e3-6515-4b8c-a734-8d4d418fd70f",
+    "dc": "2022-11-11T14:05:54.027Z",
+    "injured": 4,
+    "do_not_call": true,
+    "status": "В работе",
+    "applicant": 3,
+    "emergency_service": [
+      3
+    ]
+  }
+},
+{
+  "model": "emergency_request.request",
+  "pk": 4,
+  "fields": {
+    "text": "Деловой более зеленый.",
+    "number": "b77ecd58-1a13-461b-9ae2-1e5bb1e7c404",
+    "dc": "2022-11-11T14:05:58.074Z",
+    "injured": 36,
+    "do_not_call": true,
+    "status": "В работе",
+    "applicant": 4,
+    "emergency_service": [
+      4
+    ]
+  }
+},
+{
+  "model": "emergency_request.request",
+  "pk": 5,
+  "fields": {
+    "text": "Бочок другой угроза.",
+    "number": "4cdd19a7-39fd-4d85-8060-1d6985e2b4ee",
+    "dc": "2022-11-11T14:05:58.848Z",
+    "injured": 28,
+    "do_not_call": true,
+    "status": "Завершено",
+    "applicant": 5,
+    "emergency_service": [
+      5
+    ]
+  }
+}
+]

@@ -65,7 +65,6 @@
    http://127.0.0.1:8000/admin
    ```
 
-
 ## Настройка проекта
 
 Для создания проекта:
@@ -131,7 +130,7 @@
    ```
 
 8. Добавьте для поля "состояние здоровья" примечание на уровне модели со следующим содержанием "аллергоанамнез,
-хронические заболевания и т.п."
+   хронические заболевания и т.п."
    ```python
    help_text='аллергоанамез, хроническе, заболевания и т.п.',
    ```
@@ -172,7 +171,7 @@
     ```python
     injured = models.IntegerField(verbose_name='Количество пострадавших')
     ```
-   
+
 13. Добавьте поле "Не звонить" в модель происшествие
     ```python
     do_not_call = models.CharField(max_length=255, verbose_name='Не звонить')
@@ -191,7 +190,7 @@
 ### Сохранение объектов в БД
 
 1. Сохраните несколько объектов модели "Экстренных служб", "Заявителя" и "Обращения" двумя способами (методом сrеаtе
-уровня менеджера запросов ***objects*** и методом ***savе*** уровня экземпляра модели)
+   уровня менеджера запросов ***objects*** и методом ***savе*** уровня экземпляра модели)
    ```python
    # сохранение объекта модели экстренных служб методом save
    e = models.EmergencyService(5, 'Охрана среды', 898, '+73482900405')
@@ -220,16 +219,17 @@
    ```
 3. Добавьте "Обращению" несколько "экстренных служб" двумя способами (add, set)
    ```python
-   #1
+   #1 добавляет один 
    s1 = models.EmergencyService.objects.get(pk=1)
    s3 = models.EmergencyService.objects.get(pk=2)
    r = models.Request.objects.get(pk=1)
-   r.emergency_service.add(s1, s2)
+   r.emergency_service.add(s1,)
+   r.emergency_service.add(s2,)
    
-   #2
+   #2 добавляет множество
    s1 = models.EmergencyService.objects.get(pk=1)
    r = models.Request.objects.get(pk=1)
-   r.emergency_service.set([s1, s2]) ## чем отличаетс
+   r.emergency_service.set([s1, s2])
    ```
 
 ### Запрос в БД
@@ -239,11 +239,11 @@
    # 1
    models.Applicant.objects.get(id=1)
    # 2
-   models.Applicant.objects.get(pk=1)
+   models.Applicant.objects.all()[0]
    # 3
    models.Applicant.objects.filter(pk=1).first()
    ```
-   
+
 2. Получить все обращения заявителя двумя способами
    ```python3
    # 1
@@ -251,12 +251,12 @@
    # 2
    models.Request.objects.get(applicant=7)
    ```
-   
+
 3. Получить первые три экстренные службы
    ```python
    models.EmergencyService.objects.order_by('pk')[:3]
    ```
-   
+
 4. Получить последние пять заявителей
    ```python
    models.Applicant.objects.order_by('-pk')[:5]
@@ -276,7 +276,8 @@
    ```
 
 7. Если дважды проитерироваться по полученному ОuеrуSеt, то сколько будет сделано обращений в БД?
-С помощью конструкции len(connection.queries) можно проверить количество запросов в БД. Для сброса следует использовать reset_queries() из django.db.
+   С помощью конструкции len(connection.queries) можно проверить количество запросов в БД. Для сброса следует
+   использовать reset_queries() из django.db.
    ```python
    from django.db import connection, reset_queries
    reset_queries()
@@ -302,13 +303,13 @@
    ```python
    models.Request.objects.order_by('?').first()
    ```
-## Фильтрация !!!
+
+## Фильтрация
 
 1. Получить обращение с заявителем, идентификатор которого равен 1
    ```python
-   models.Request.objects.filter(applicant_id=1)
+   models.Request.objects.filter(applicant_id=1).first()
    ```
-   
 2. Получить всех заявителей определенного пола и без обращений
    ```python
    models.Applicant.objects.filter(gender='Female', request__isnull=True)
@@ -319,11 +320,11 @@
    ```
 4. Получить всех несовершеннолетних заявителей
    ```python
-   models.Applicant.objects.filter(birthdate__year__lt=(today.year - 18))
+   models.Applicant.objects.filter(birthdate__year__gte=(today.year - 18)) 
    ```
 5. Получить всех совершеннолетних заявителей
    ```python
-   models.Applicant.objects.filter(birthdate__year__gte=(today.year - 18))
+   models.Applicant.objects.filter(birthdate__year__lt=(today.year - 18))
    ```
 6. Узнать есть ли вообще какие-нибудь заявители
    ```python
@@ -331,15 +332,15 @@
    ```
 7. Узнать, есть ли какие-нибудь заявители с похожими именами (пример: Алексей, Александра)
    ```python
-   models.Applicant.objects.filter(first_name__icontains='алекс') !!! 
+   models.Applicant.objects.filter(first_name__icontains='алекс') 
    ```
-8. Получить все обращения, кроме тех, у которых не назначены службы !!!
+8. Получить все обращения, кроме тех, у которых не назначены службы
    ```python
-   models.Request.objects.filter(emergency_service__service_name__isnull=False)
+   models.Request.objects.filter(emergency_service__service_name__isnull=True)
    ```
 9. Среди обращений со службой с кодом "ОЗ" вывести дату самого первого обращения
    ```python
-   models.Request.objects.filter(emergency_service__service_code='03').order_by('request_date').first()
+   str(models.Request.objects.filter(emergency_service__service_code='18').first().dc.date())
    ```
 10. Получить все обращения, которые созданы до определенной даты
    ```python
@@ -349,11 +350,11 @@
 11. Получить всех заявителей без изображения и/или без номера телефона
    ```python
    from django.db.models import Q
-   a = models.Applicant.objects.filter(Q(phone_number__exact="") | Q(image__exact=""))
+   a = models.Applicant.objects.filter(Q(phone_number__isnull=True) | Q(image__exact__isnull=True))
    ```
 12. Получить всех заявителей, с телефоном (917) со службой 01 !!!
    ```python
-   models.Applicant.objects.filter(Q(requests__emergency_service__service_code='01') | Q(phone_number=917))
+   models.Applicant.objects.filter(Q(requests__emergency_service__service_code='01') | Q(phone_number__icontains='917'))
    ```
 13. Получить результат объединения, пересечения и разницы предыдущих двух запросов
    ```python
@@ -361,13 +362,13 @@
    a.intersection(b)
    a.difference(b)
    ```
-14. Вывести все обращения, созданные в опредkеленный период
+14. Вывести все обращения, созданные в определенный период
    ```python
    models.Request.objects.filter(request_date__range=[datetime(2022, 1, 1), datetime(2022, 12, 12)])
    ```
 15. Получить количество заявителей без номера телефона
    ```python
-   models.Applicant.objects.filter(phone_number__exact='').count()
+   models.Applicant.objects.filter(phone_number__isnull=True).count()
    ```
 16. Выведите все уникальные записи модели заявитель
    ```python
@@ -392,13 +393,13 @@
    ```
 21. Выберите или создайте заявителя с номером "12341234"
    ```python
-   models.Applicant.objects.get_or_create(
+   applicant, _ = models.Applicant.objects.get_or_create(
       id='12341234', first_name='Daniel', last_name='Longi',
       birthdate='1988-05-13', health_status='Healthy', gender='Мужчина')
    ```
 22. Измените номер заявителя с номером "12341234" на любой другой, если заявителя, то запрос должен его создать.
    ```python
-      models.Applicant.objects.update_or_create(id='12341234', defaults={'id': '123412369'})
+   applicant, _ = models.Applicant.objects.update_or_create(id='12341234', defaults={'id': '123412369'})
    ```
 23. Создайте сразу несколько заявителей.
    ```python
@@ -413,10 +414,10 @@
    ```
 25. Выведите имя заявителя у какого-либо обращения. Убедитесь, что было сделано не более одного запроса !!!
    ```python # prefetch related
-   models.Applicant.objects.filter(request__id=4).first().first_name
+   models.Applicant.objects.filter(request__id=4).first().first_name  # prefetch_related
    ```
 26. Выведите список всех обращений с указанием списка задействованных экстренных служб в следующем формате: "номер
-обращения: список кодов служб !!!
+    обращения: список кодов служб !!!
    ```python
    r = models.Request.objects.all()
    for i in r:
@@ -424,13 +425,13 @@
    ```
 27. Выведите все значения дат создания происшествий. Поместите даты в список. !!!
    ```python
-   list(models.Request.objects.all().values_list('dc', flat=True))
+   str(i.date()) for i in list(str(models.Request.objects.values_list('dc', flat=True).date()))
    ```
-28. Создайте queryset, который будет всегда пустым !!!
+28. Создайте queryset, который будет всегда пустым
    ```python
    models.Request.objects.none()
    ```
-29. Вывести среднее количество пострадавших в происшествиях !!!
+29. Вывести среднее количество пострадавших в происшествиях
    ```python
    from django.db.models import Avg
    models.Request.objects.aggregate(Avg('injured'))
@@ -450,14 +451,14 @@
 32. Вывести среднее количество вызванных экстренных служб !!!
    ```python
    from django.db.models import Avg
-   models.Request.objects.aggregate(Avg('injured'))
+   models.Request.objects.aggregate(Avg('injured'))  # чекнуть 
    ```
 33. Вывести наибольшее и наименьшее количество пострадавших !!!
    ```python
    from django.db.models import Min, Max
    models.Request.objects.aggregate(Max('injured'), Min('injured'))
    ```
-34. Сформировать запрос к модели заявитель, в котором будет добавлено поле 
+34. Сформировать запрос к модели заявитель, в котором будет добавлено поле
     с количеством обращений каждого заявителя. !!!
    ```python
    from django.db.models import Count
