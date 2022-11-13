@@ -17,12 +17,12 @@
                 <p class="lead mb-0">Код службы: {{ emergency.service_code }}</p>
                 <p class="lead mb-0">Телефон: {{ emergency.phone_number}}</p>
                 <p class="lead">{% lorem 1 p %}</p>
-                <a class="btn btn-outline-dark" href="{% url 'emergency_request:emergency_update' emergency.slug %}"
+                <a class="btn btn-outline-dark" href="{% url 'emergency_request:emergency_update_function' emergency.slug %}"
                    role="button">
                     <i class="bi bi-robot"></i>
                     Редактировать
                 </a>
-                <a class="btn btn-outline-dark" href="{% url 'emergency_request:emergency_create' %}" role="button">
+                <a class="btn btn-outline-dark" href="{% url 'emergency_request:emergency_create_function' %}" role="button">
                     <i class="bi bi-rocket-takeoff"></i>
                     Создать новую
                 </a>

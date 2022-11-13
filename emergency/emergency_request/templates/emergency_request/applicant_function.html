@@ -17,12 +17,12 @@
                 <p class="lead mb-0">День рождения: {{ applicant.birthdate }}</p>
                 <p class="lead mb-0">Телефон: {{ applicant.phone_number }}</p>
                 <p class="lead">{% lorem 1 p %}</p>
-                <a class="btn btn-outline-dark" href="{% url 'emergency_request:applicant_update' applicant.pk %}"
+                <a class="btn btn-outline-dark" href="{% url 'emergency_request:applicant_update_function' applicant.pk %}"
                    role="button">
                     <i class="bi bi-robot"></i>
                     Редактировать
                 </a>
-                <a class="btn btn-outline-dark" href="{% url 'emergency_request:applicant_create' %}" role="button">
+                <a class="btn btn-outline-dark" href="{% url 'emergency_request:applicant_create_function' %}" role="button">
                     <i class="bi bi-rocket-takeoff"></i>
                     Создать новую
                 </a>

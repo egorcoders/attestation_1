@@ -16,19 +16,19 @@ def index(request):
 def emergency_detail(request, slug: str):
     """Вывод экземпляра класса экстренной службы."""
     emergency = get_object_or_404(EmergencyService, slug=slug)
-    return render(request, 'emergency_request/emergency.html', {'emergency': emergency})
+    return render(request, 'emergency_request/emergency_function.html', {'emergency': emergency})
 
 
 def applicant_detail(request, pk: int):
     """Вывод экземпляра класса заявителя."""
     applicant = get_object_or_404(Applicant, pk=pk)
-    return render(request, 'emergency_request/applicant.html', {'applicant': applicant})
+    return render(request, 'emergency_request/applicant_function.html', {'applicant': applicant})
 
 
 def request_detail(request, pk):
     """Вывод экземпляра класса экстренного обращения."""
     single_request = get_object_or_404(Request, pk=pk)
-    return render(request, 'emergency_request/request.html', {'single_request': single_request})
+    return render(request, 'emergency_request/request_function.html', {'single_request': single_request})
 
 
 def emergency_list(request):
@@ -118,59 +118,6 @@ def views_6(request, pk):
         'json': JsonResponse(model_to_dict(applicant), json_dumps_params={'ensure_ascii': False}).content
     }
     return render(request, 'emergency_request/views_6.html', context)
-
-
-class EmergencyServiceView(ListView):
-    model = EmergencyService
-    template_name = 'emergency_request/emergency_list_view.html'
-    context_object_name = 'emergencies'
-
-
-class ApplicantView(ListView):
-    model = Applicant
-    template_name = 'emergency_request/applicant_list_view.html'
-    context_object_name = 'applicants'
-
-
-class RequestView(ListView):
-    model = Request
-    template_name = 'emergency_request/request_list_view.html'
-    context_object_name = 'requests'
-
-
-class EmergencyServiceViewDetail(DetailView):
-    model = EmergencyService
-    template_name = 'emergency_request/emergency.html'
-    context_object_name = 'emergency'
-
-
-class ApplicantViewDetail(DetailView):
-    model = Applicant
-    template_name = 'emergency_request/applicant.html'
-    context_object_name = 'applicant'
-
-
-class RequestViewDetail(DetailView):
-    model = Request
-    template_name = 'emergency_request/request.html'
-    context_object_name = 'single_request'
-
-
-class ApplicantUpdate(UpdateView):
-    model = Applicant
-    template_name = 'emergency_request/form.html'
-    fields = ['first_name']
-
-    def form_valid(self, form):
-        return redirect('/')
-
-# class ApplicantAdd(CreateView):
-#     model = Applicant
-#     template_name = 'emergency_request/form.html'
-#     fields = ('first_name',)
-#
-#     def form_valid(self, form):
-#         return redirect('/applicants_f/')
 
 
 def emergency_create(request):

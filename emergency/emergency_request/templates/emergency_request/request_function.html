@@ -22,12 +22,12 @@
                 </p>
                 <p class="lead mb-0">Имя заявителя: {{ single_request.applicant.first_name }}</p>
                 <p class="lead">{% lorem 1 p %}</p>
-                <a class="btn btn-outline-dark" href="{% url 'emergency_request:request_update' single_request.pk %}"
+                <a class="btn btn-outline-dark" href="{% url 'emergency_request:request_update_function' single_request.pk %}"
                    role="button">
                     <i class="bi bi-robot"></i>
                     Редактировать
                 </a>
-                <a class="btn btn-outline-dark" href="{% url 'emergency_request:request_create' %}" role="button">
+                <a class="btn btn-outline-dark" href="{% url 'emergency_request:request_create_function' %}" role="button">
                     <i class="bi bi-rocket-takeoff"></i>
                     Создать новую
                 </a>
