@@ -1,10 +1,29 @@
-from django.forms import model_to_dict
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render, redirect
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from emergency_request.models import EmergencyService, Applicant, Request
+import django_filters
+from django.shortcuts import get_object_or_404
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
+from django_filters import views
+
+from emergency_request.filters import EmergencyServiceFilter, ApplicantFilter, RequestFilter
 from emergency_request.forms import EmergencyServiceForm, ApplicantForm, RequestForm
-from emergency_request.consts import color_choices
+from emergency_request.models import EmergencyService, Applicant, Request
+
+
+class ApplicantIdView(TemplateView):
+    template_name = 'emergency_request/applicant_view.html'
+
+    def get_context_data(self, **kwargs):
+        pk = self.request.GET['id']
+        applicant = get_object_or_404(Applicant, pk=pk)
+        return {'applicant': applicant}
+
+
+class ApplicantPhoneView(TemplateView):
+    template_name = 'emergency_request/applicant_view.html'
+
+    def get_context_data(self, **kwargs):
+        phone = self.request.GET['phone_number']
+        applicant = get_object_or_404(Applicant, phone_number__contains=phone)
+        return {'applicant': applicant}
 
 
 class EmergencyServiceListView(ListView):
@@ -80,3 +99,21 @@ class RequestUpdateView(UpdateView):
     template_name = 'emergency_request/form.html'
     success_url = '/views/request_list'
     fields = '__all__'
+
+
+class EmergencyServiceFilter(django_filters.views.FilterView):
+    model = EmergencyService
+    template_name = 'emergency_service_filter.html'
+    filterset_class = EmergencyServiceFilter
+
+
+class ApplicantFilter(django_filters.views.FilterView):
+    model = Applicant
+    template_name = 'applicant_filter.html'
+    filterset_class = ApplicantFilter
+
+
+class RequestFilter(django_filters.views.FilterView):
+    model = Request
+    template_name = 'request_filter.html'
+    filterset_class = RequestFilter

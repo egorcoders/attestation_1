@@ -1,10 +1,9 @@
-from django.forms import model_to_dict
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
-from django.views.generic import ListView, DetailView, UpdateView
-from emergency_request.models import EmergencyService, Applicant, Request
-from emergency_request.forms import EmergencyServiceForm, ApplicantForm, RequestForm
+
 from emergency_request.consts import color_choices
+from emergency_request.forms import EmergencyServiceForm, ApplicantForm, RequestForm
+from emergency_request.models import EmergencyService, Applicant, Request
 
 
 def index(request):
@@ -74,13 +73,14 @@ def views_1(request):
     return render(request, 'emergency_request/views_1.html', context)
 
 
-def views_2(request, pk):
+def applicant_id(request):
     """
     Создать представление, отображающее номер телефона заявителя с определенным id,
     указанным в качестве параметра к запросу. Вернуть 404 если такого заявителя не существует.
     """
-    applicant = get_object_or_404(Applicant, pk=pk)
-    return render(request, 'emergency_request/views_2.html', {'applicant': applicant})
+    applicant_id = request.GET["id"]
+    applicant = get_object_or_404(Applicant, pk=applicant_id)
+    return render(request, 'emergency_request/applicant_function.html', {'applicant': applicant})
 
 
 def views_3(request):
@@ -98,26 +98,22 @@ def views_4(request):
     return render(request, 'emergency_request/views_4.html', {'attributes': attributes})
 
 
-def views_5(request):
+def applicant_phone(request):
     """
     Создать представление, которое отображает данные заявителя.
     Номер телефона которого передается в параметрах запроса. (query dict)
     """
     phone_number = request.GET["phone_number"]
     applicant = get_object_or_404(Applicant, phone_number__icontains=phone_number)
-    return render(request, 'emergency_request/views_5.html', {'applicant': applicant})
+    return render(request, 'emergency_request/applicant_function.html', {'applicant': applicant})
 
 
 def views_6(request, pk):
     """
     Создать представление, отдающее данные заявителя в json-формате. (json response)
     """
-    applicant = get_object_or_404(Applicant, pk=pk)
-    applicant.save(update_fields=['image'])
-    context = {
-        'json': JsonResponse(model_to_dict(applicant), json_dumps_params={'ensure_ascii': False}).content
-    }
-    return render(request, 'emergency_request/views_6.html', context)
+    applicant = Applicant.objects.filter(pk=pk).values().first()
+    return render(request, 'emergency_request/views_6.html', {'json': JsonResponse({'result': applicant}).content})
 
 
 def emergency_create(request):

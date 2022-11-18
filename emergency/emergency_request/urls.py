@@ -23,6 +23,9 @@ urlpatterns = [
         path('request_create/', functions.request_create, name='request_create_function'),
         path('request_update/<int:pk>/', functions.request_update, name='request_update_function'),
 
+        path('applicant_id/', functions.applicant_id, name='applicant_id_function'),
+        path('applicant_phone/', functions.applicant_phone, name='applicant_phone_function'),
+
     ])),
     path('views/', include([
         path('emergency_list/', views.EmergencyServiceListView.as_view(), name='emergency_list_view'),
@@ -41,12 +44,13 @@ urlpatterns = [
         path('applicant_update/<int:pk>/', views.ApplicantUpdateView.as_view(), name='applicant_update_view'),
         path('request_update/<int:pk>/', views.RequestUpdateView.as_view(), name='request_update_view'),
 
+        path('applicant_id/', views.ApplicantIdView.as_view(), name='applicant_id_view'),
+        path('applicant_phone/', views.ApplicantPhoneView.as_view(), name='applicant_phone_view'),
     ])),
 
     path('views_1/', functions.views_1, name='views_1'),
     path('views_3/', functions.views_3, name='views_3'),
     path('views_4/', functions.views_4, name='views_4'),
-    path('views_5/', functions.views_5, name='views_5'),
     path('views_6/<int:pk>/', functions.views_6, name='views_6'),
 
 ]
